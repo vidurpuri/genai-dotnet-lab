@@ -19,8 +19,21 @@ IChatClient client = new OpenAIClient(creds, options).GetChatClient("openai/gpt-
 
 
 #region Basic Chat 
-//Create a chat response using the chat client and the prompt
-ChatResponse response = await client.GetResponseAsync("Hello, can you tell me a short joke?");
+////Create a chat response using the chat client and the prompt
+//ChatResponse response = await client.GetResponseAsync("Hello, can you tell me a short joke?");
 
-Console.WriteLine(response);
+//Console.WriteLine(response);
+#endregion
+
+#region Streaming Chat
+
+string prompt = "Hello, can you tell me a long joke?";
+Console.WriteLine("Prompt -> ",prompt);
+
+var response =  client.GetStreamingResponseAsync(prompt);
+await foreach (var message in response)
+{
+    Console.Write(message);
+}
+
 #endregion
