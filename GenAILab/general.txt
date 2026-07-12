@@ -1,0 +1,41 @@
+GenAI.TextCompletion.Ollama
+
+GenAI.TextCompletion.SemanticKernel
+
+GenAI.TextCompletion.Production
+
+
+
+-===========-============================================
+Project structure
+
+
+GenAILab
+
+│
+
+├── docs
+
+├── docker
+
+├── shared
+
+├── experiments
+
+│
+
+└── src
+
+      │
+
+      └── 01-TextCompletion
+
+            │
+
+            ├── GenAI.TextCompletion.GitHubModels
+
+            ├── GenAI.TextCompletion.Ollama
+
+            ├── GenAI.TextCompletion.SemanticKernel
+
+            └── GenAI.TextCompletion.Production
