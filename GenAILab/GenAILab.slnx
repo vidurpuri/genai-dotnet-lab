@@ -9,6 +9,9 @@
   </Folder>
   <Folder Name="/experiments/" />
   <Folder Name="/shared/" />
+  <Folder Name="/Solution Items/">
+    <File Path="Project Structure.txt" />
+  </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/01-Text Completion/">
     <File Path="general.txt" />

@@ -1,0 +1,35 @@
+GenAILab
+
+├── docs
+│   ├── Architecture
+│   ├── InterviewQuestions
+│   ├── LearningJournal
+│   └── Notes
+│
+├── shared
+│
+├── docker
+│
+├── experiments
+│
+└── src
+    │
+    ├── 00-Playground
+    │
+    ├── 01-TextCompletion
+    │     ├── GitHubModels
+    │     ├── Ollama
+    │     ├── SemanticKernel
+    │     └── Production
+    │
+    ├── 02-ChatApplication
+    │
+    ├── 03-FunctionCalling
+    │
+    ├── 04-VectorSearch
+    │
+    ├── 05-RAG
+    │
+    ├── 06-ImageAnalysis
+    │
+    └── 07-BankingPlatform
