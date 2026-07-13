@@ -15,6 +15,7 @@
   <Folder Name="/src/" />
   <Folder Name="/src/01-Text Completion/">
     <File Path="general.txt" />
+    <Project Path="GenAI.FunctionCalling/GenAI.FunctionCalling.csproj" Id="f6695875-953d-4a2c-9d52-deea0905529b" />
     <Project Path="GenAI.TextCompletion.GitHubModels/GenAI.TextCompletion.GitHubModels.csproj" />
     <Project Path="GenAI.TextCompletion.Ollama/GenAI.TextCompletion.Ollama.csproj" Id="272c051f-66e6-4793-bc83-c08b8cc29465" />
   </Folder>
