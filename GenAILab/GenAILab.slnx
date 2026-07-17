@@ -18,5 +18,6 @@
     <Project Path="GenAI.FunctionCalling/GenAI.FunctionCalling.csproj" Id="f6695875-953d-4a2c-9d52-deea0905529b" />
     <Project Path="GenAI.TextCompletion.GitHubModels/GenAI.TextCompletion.GitHubModels.csproj" />
     <Project Path="GenAI.TextCompletion.Ollama/GenAI.TextCompletion.Ollama.csproj" Id="272c051f-66e6-4793-bc83-c08b8cc29465" />
+    <Project Path="GenAI.TextCompletion_SemanticKernel_GithubModels/GenAI.TextCompletion_SemanticKernel_GithubModels.csproj" Id="fd189c06-5f11-4103-a571-55d9c3da0b9b" />
   </Folder>
 </Solution>
