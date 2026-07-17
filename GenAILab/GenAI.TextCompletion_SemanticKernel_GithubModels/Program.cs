@@ -2,6 +2,7 @@
 using Microsoft.SemanticKernel.Connectors.OpenAI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.SemanticKernel.ChatCompletion;
+using GenAI.TextCompletion_SemanticKernel_GithubModels.Plugins;
 
 IConfigurationRoot configuration = new ConfigurationBuilder()
     .AddUserSecrets<Program>()
@@ -23,12 +24,21 @@ var history = new ChatHistory();
 
 var chatCompletion = kernel.GetRequiredService<IChatCompletionService>();
 
+kernel.Plugins.AddFromObject(new CustomerPlugin(httpClient: new HttpClient() { BaseAddress = new Uri("https://localhost:7020/") }));
+
+
+// Enable concurrent invocation of functions to get the latest news and the current time.
+FunctionChoiceBehaviorOptions options = new() { AllowConcurrentInvocation = true };
+
+
 var settings = new OpenAIPromptExecutionSettings()
 {
     ChatSystemPrompt = "",
     Temperature = 0.9,
-    MaxTokens = 1000
+    MaxTokens = 1000,
+    FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(options: options)
 };
+
 
 #region Basic Chat
 
@@ -51,7 +61,7 @@ var settings = new OpenAIPromptExecutionSettings()
 
 #region History with Streaming Response
 
-while(true)
+while (true)
 {
     Console.WriteLine("User: ");
     var userInput = Console.ReadLine();
@@ -61,7 +71,7 @@ while(true)
     }
     string fullMessage = "";
     history.AddUserMessage(userInput);
-    var response =chatCompletion.GetStreamingChatMessageContentsAsync(history,settings);
+    var response =chatCompletion.GetStreamingChatMessageContentsAsync(history,settings, kernel);
     await foreach (var message in response)
     {
         Console.Write(message.Content);
