@@ -1,0 +1,328 @@
+﻿# GenAI.TextCompletion.Production - Architecture Design
+
+## Objective
+
+Convert the course demo into a production-ready .NET application while keeping the scope limited to **Text Completion** and **Chat Completion** using **Microsoft.Extensions.AI**.
+
+The goal is **not** to add new AI capabilities but to improve the application's architecture, maintainability, and extensibility.
+
+---
+
+# High-Level Architecture
+
+```text
+Console UI
+    │
+    ▼
+IChatService (Application Layer)
+    │
+    ▼
+IChatClient (Microsoft.Extensions.AI)
+    │
+    ▼
+GitHub Models / Ollama
+```
+
+Each layer has a single responsibility and depends only on the layer below it.
+
+---
+
+# Project Structure
+
+```text
+GenAI.TextCompletion.Production
+│
+├── Program.cs
+├── appsettings.json
+│
+├── Configuration
+│   └── AISettings.cs
+│
+├── Services
+│   ├── IChatService.cs
+│   └── ChatService.cs
+│
+├── AI
+│   ├── ChatClientFactory.cs
+│   └── ProviderRegistration.cs
+│
+├── Models
+│   ├── ChatRequest.cs
+│   └── ChatResponse.cs
+│
+├── Extensions
+│   └── ServiceCollectionExtensions.cs
+│
+└── Logging
+```
+
+---
+
+# Responsibilities
+
+## 1. Program.cs
+
+Acts only as the application entry point.
+
+Responsibilities:
+
+* Create Host
+* Register Dependency Injection
+* Load Configuration
+* Resolve IChatService
+* Start Console Chat Loop
+
+Avoid:
+
+* AI logic
+* Provider configuration
+* Business logic
+
+---
+
+## 2. Configuration
+
+Contains all configurable AI settings.
+
+Examples:
+
+* Provider
+* Model
+* Endpoint
+* API Key
+* Temperature
+* Max Tokens
+
+No hardcoded values should exist in the application.
+
+appsettings.json / User Secrets
+            │
+            ▼
+        AIOptions
+            │
+            ▼
+   DI Provider Registration
+            │
+      Check AI.Provider
+       ┌────┴────┐
+       ▼         ▼
+ GitHubModels   Ollama
+       │         │
+       └────┬────┘
+            ▼
+        IChatClient
+            │
+            ▼
+        ChatService
+
+---
+
+## 3. Services
+
+Contains application/business logic.
+
+### IChatService
+
+Defines operations such as:
+
+* Send Message
+* Stream Response
+
+### ChatService
+
+Responsibilities:
+
+Common Ground: 
+* Validate user input
+* Maintain conversation history
+
+Work different for different providers: 
+* Call IChatClient
+* Return responses
+* Handle streaming
+
+Should NOT know:
+
+* GitHub Models
+* Ollama
+* Endpoints
+
+ChatService
+│
+├── Public API
+│
+│   ├── SendMessageAsync()
+│   └── StreamMessageAsync()
+│
+├── Common Internal Logic
+│
+│   ├── PrepareUserMessage()
+│   │     ├── Validate
+│   │     └── Add to History
+│   │
+│   └── AddAssistantMessage()
+│
+└── Provider Communication
+      ├── GetResponseAsync()
+      └── GetStreamingResponseAsync()
+
+---
+
+## 4. AI Layer
+
+Responsible for Microsoft.Extensions.AI integration.
+
+Contains:
+
+### Provider Registration
+
+Creates the appropriate IChatClient based on configuration.
+
+Supports:
+
+* GitHub Models
+* Ollama
+
+This should be the only layer aware of provider-specific implementation details.
+
+AI
+└── ProviderRegistration
+
+ProviderRegistration will:
+
+Read AIOptions.Provider
+Determine which provider is configured
+Register the appropriate IChatClient
+Hide all provider-specific initialization details
+
+---
+
+## 5. Models
+
+Contains request and response DTOs.
+
+Examples:
+
+* ChatRequest
+* ChatResponse
+
+Keeps application contracts clean and independent of UI.
+
+ChatRequest
+│
+└── Prompt
+
+ChatResponse
+│
+├── Message
+└── Timestamp
+
+---
+
+## 6. Extensions
+
+Registartion in program.cs should be clean and simple.
+
+Example:
+
+* Register ChatService
+* Register ChatClient
+* Register Configuration
+
+Our Program.cs Will look like this 
+
+Configuration
+Services
+AI
+Models
+Program.cs
+
+---
+
+# Chat Flow
+
+```text
+User
+   │
+   ▼
+Program.cs
+   │
+   ▼
+IChatService
+   │
+   ▼
+IChatClient
+   │
+   ▼
+GitHub Models / Ollama
+   │
+   ▼
+Response
+   │
+   ▼
+Console
+```
+
+---
+
+# Chat History
+
+Chat history should be maintained inside the ChatService.
+
+Program.cs should never manage conversation state.
+
+This allows future migration to persistent storage without changing the UI.
+
+---
+
+# Streaming
+
+Streaming should be exposed by ChatService.
+
+The Console UI should only consume the stream and display output.
+
+---
+
+# Logging
+
+Use ILogger for:
+
+* Startup
+* Selected Provider
+* Selected Model
+* Response Time
+* Errors
+* Token Usage (if available)
+
+Console output should only display information intended for the user.
+
+---
+
+# Error Handling
+
+Gracefully handle:
+
+* Missing API Key
+* Invalid Model
+* Network Failures
+* Empty Prompt
+* Provider Errors
+
+The application should log errors and continue running whenever possible.
+
+---
+
+# Future Enhancements (Next Modules)
+
+The following capabilities will be added in later modules and are intentionally excluded from this project:
+
+* Function Calling
+* Plugins
+* Semantic Kernel
+* RAG
+* Vector Database
+* MCP
+* AI Agents
+* Prompt Templates
+
+This project should remain focused on demonstrating a clean, production-quality architecture for Microsoft.Extensions.AI.
