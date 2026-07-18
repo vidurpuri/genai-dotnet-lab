@@ -5,6 +5,25 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>c66f9e6d-1701-493b-8461-93b23d87ff2b</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appSettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+	<PackageReference Include="Microsoft.Extensions.AI" Version="10.7.0" />
+	<PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="10.7.0" />
+	<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.9" />
+	<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.9" />
+	<PackageReference Include="OllamaSharp" Version="5.4.25" />
+  </ItemGroup>
 
 </Project>
