@@ -42,17 +42,44 @@ namespace GenAI.MEAI.TextCompletion.Production.Services
             ValidateRequest(request);
 
             //Add User Response to ChatHistory
-            AddUserMessageToChatHistory(request);
+            AddUserMessageToChatHistory(request.UserPrompt);
 
             // Create IChatClient and send the request to the provider and get the response
             var response = await _chatClient.GetResponseAsync(_chatHistory);
 
             //Add Assistnat Response to ChatHistory
-            AddAssistantMessageToChatHistory(response);
+            AddAssistantMessageToChatHistory(response.Text);
 
             return new Models.ChatResponse
             {
                 AssistantResponse = response.Text,
+                TimeStamp = DateTime.UtcNow
+            };
+
+        }
+
+        public async Task<Models.ChatResponse> SendStreamingMessageAsync(ChatRequest request)
+        {
+            //Validate the request
+            ValidateRequest(request);
+
+            //Add User Response to ChatHistory
+            AddUserMessageToChatHistory(request.UserPrompt);
+
+            // Create IChatClient and send the request to the provider and get the response
+            var streamingResponse = new StringBuilder();
+
+            await foreach (var response in _chatClient.GetStreamingResponseAsync(_chatHistory))
+            {
+                streamingResponse.Append(response.Text);
+            }
+
+            //Add Assistnat Response to ChatHistory
+            AddAssistantMessageToChatHistory(streamingResponse.ToString());
+
+            return new Models.ChatResponse
+            {
+                AssistantResponse = streamingResponse.ToString(),
                 TimeStamp = DateTime.UtcNow
             };
 
@@ -66,15 +93,17 @@ namespace GenAI.MEAI.TextCompletion.Production.Services
             }
         }
 
-        private void AddUserMessageToChatHistory(ChatRequest request)
+        private void AddUserMessageToChatHistory(string request)
         {
             // Logic to add user response to chat history
-            _chatHistory.Add(new ChatMessage(ChatRole.User, request.UserPrompt));
+            _chatHistory.Add(new ChatMessage(ChatRole.User, request));
         }
 
-        private void AddAssistantMessageToChatHistory(Microsoft.Extensions.AI.ChatResponse response)
+        private void AddAssistantMessageToChatHistory(string response)
         {
-            _chatHistory.Add(new ChatMessage(ChatRole.Assistant, response.Text));
+            _chatHistory.Add(new ChatMessage(ChatRole.Assistant, response));
         }
+
+       
     }
 }

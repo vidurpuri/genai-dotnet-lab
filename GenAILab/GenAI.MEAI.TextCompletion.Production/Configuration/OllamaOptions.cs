@@ -13,6 +13,6 @@ namespace GenAI.MEAI.TextCompletion.Production.Configuration
         public string Endpoint { get; set; }
 
         [Required]
-        public string Models { get; set; }
+        public string Model { get; set; }
     }
 }

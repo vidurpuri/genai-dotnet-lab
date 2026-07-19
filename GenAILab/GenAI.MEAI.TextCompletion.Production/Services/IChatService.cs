@@ -10,5 +10,7 @@ namespace GenAI.MEAI.TextCompletion.Production.Services
     internal interface IChatService
     {
         public Task<ChatResponse> SendMessageAsync(ChatRequest request);
+
+        public Task<ChatResponse> SendStreamingMessageAsync(ChatRequest request);
     }
 }
