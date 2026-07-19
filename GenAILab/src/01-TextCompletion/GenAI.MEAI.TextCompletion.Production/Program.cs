@@ -1,15 +1,10 @@
 ﻿using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
-using OpenAI;
-using OpenAI.Assistants;
-using System.ClientModel;
-using System.Text.Json.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using GenAI.MEAI.TextCompletion.Production.Configuration;
 using GenAI.MEAI.TextCompletion.Production.Services;
 using GenAI.MEAI.TextCompletion.Production.Providers;
-using Microsoft.Extensions.Options;
 using GenAI.MEAI.TextCompletion.Production.Models;
 
 var builder = Host.CreateApplicationBuilder(args);

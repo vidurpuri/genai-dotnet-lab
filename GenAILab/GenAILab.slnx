@@ -15,11 +15,14 @@
   <Folder Name="/src/" />
   <Folder Name="/src/01-Text Completion/">
     <File Path="general.txt" />
-    <Project Path="GenAI.CustomerAPI/GenAI.CustomerAPI.csproj" Id="500a8975-1b4c-4e75-b821-0153c41ea755" />
-    <Project Path="GenAI.FunctionCalling/GenAI.FunctionCalling.csproj" Id="f6695875-953d-4a2c-9d52-deea0905529b" />
-    <Project Path="GenAI.MEAI.TextCompletion.Production/GenAI.MEAI.TextCompletion.Production.csproj" Id="367fd711-4c5b-4da9-b22e-f71410f788ce" />
-    <Project Path="GenAI.TextCompletion.GitHubModels/GenAI.TextCompletion.GitHubModels.csproj" />
-    <Project Path="GenAI.TextCompletion.Ollama/GenAI.TextCompletion.Ollama.csproj" Id="272c051f-66e6-4793-bc83-c08b8cc29465" />
-    <Project Path="GenAI.TextCompletion_SemanticKernel_GithubModels/GenAI.TextCompletion_SemanticKernel_GithubModels.csproj" Id="fd189c06-5f11-4103-a571-55d9c3da0b9b" />
+    <Project Path="src/01-TextCompletion/GenAI.CustomerAPI/GenAI.CustomerAPI.csproj" />
+    <Project Path="src/01-TextCompletion/GenAI.FunctionCalling/GenAI.FunctionCalling.csproj" />
+    <Project Path="src/01-TextCompletion/GenAI.MEAI.TextCompletion.Production/GenAI.MEAI.TextCompletion.Production.csproj" />
+    <Project Path="src/01-TextCompletion/GenAI.TextCompletion.GitHubModels/GenAI.TextCompletion.GitHubModels.csproj" />
+    <Project Path="src/01-TextCompletion/GenAI.TextCompletion.Ollama/GenAI.TextCompletion.Ollama.csproj" />
+    <Project Path="src/01-TextCompletion/GenAI.TextCompletion_SemanticKernel_GithubModels/GenAI.TextCompletion_SemanticKernel_GithubModels.csproj" />
+  </Folder>
+  <Folder Name="/src/02-VectorSearchEmbeddings/">
+    <Project Path="src/02-VectorEmbeddings/GenAI.MEAI.Basic.Embeddings/GenAI.MEAI.Basic.Embeddings.csproj" />
   </Folder>
 </Solution>
